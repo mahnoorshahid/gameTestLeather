@@ -110,7 +110,7 @@ function draw()
     rotate(frameCount / -100.0);
     polygon(0, 0, 300, sides); 
     //blob(sides * 10);
-     blob(0, 0 ,  3000/mx );
+     blob(0, 0 ,  mx );
  
     pop();
 
@@ -263,9 +263,6 @@ function mouseDragged(){
 	console.log(mouseY);
 
 };
-
-
-
 
 
 
