@@ -33,6 +33,7 @@ var brushG;
 var brushB;
 var brushRad;
 
+var bubbleClick;
 
 var overBox = false;
 var locked = false;
@@ -56,12 +57,11 @@ function setup()
  	beginShape();
    for (let i = 0; i < 20; i++) {
 
-  
-
     let x = random(width);
     let y = random(height);
     let r = random(20, 60);
     let b = new Bubble(x, y, r);
+    //let bTwo = new Bubble(bubbleClick, y, r);
     bubbles.push(b);
 
     vertex(x,y);
@@ -110,13 +110,14 @@ function draw()
     rotate(frameCount / -100.0);
     polygon(0, 0, 300, sides); 
     //blob(sides * 10);
-     blob(0, 0 ,  mx );
+     blob(0, 0, mx );
  
     pop();
 
     for (let i = 0; i < bubbles.length; i++) {
     bubbles[i].move();
     bubbles[i].show();
+
   }
 
 }
@@ -142,6 +143,8 @@ function readIncoming(inMessage) //when new data comes in it triggers this funct
     sides = inMessage.message.slide +4; //take the number from the message and assign it to the sides variable
    	mx = inMessage.message.x;
    	my = inMessage.message.y;
+   	//bubbleClick = click.clicked();
+	bubbleClick = clickTest;
 
 }
 
@@ -194,8 +197,10 @@ var radius;
     var x = r * cos(a);
     var y = r * sin(a);
     vertex(x, y);
+    vertex(mx,my);
    // vertex(mx, my);
     xoff += 0.1;
+    xoff += mx;
     //ellipse(x, y, 4, 4);
   }
   endShape();
@@ -233,6 +238,9 @@ function sendTheMessage()
 mx = mouseX;
 my = mouseY;
 
+click = new Bubble();
+click.clicked(mouseX, mouseY);
+
 
 console.log(slideNumber);
 console.log (mx);
@@ -246,7 +254,8 @@ console.log (my);
       {
         slide: slideNumber,
         x: mx,
-        y : my
+        y: my,
+        clickTest: new Bubble()
 
       }
 
