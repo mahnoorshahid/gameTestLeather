@@ -28,7 +28,8 @@ var nextButton;
 var slideNumber=0;
 var totalImages = 4;
 
-  
+
+
 var bubbleClick;
 
 var overBox = false;
@@ -51,7 +52,6 @@ function setup()
   	by = height/2.0;
 
  	beginShape();
-
    for (let i = 0; i < 20; i++) {
 
     let x = random(width);
@@ -83,6 +83,12 @@ function setup()
 
 
 
+//sendButton = createButton('NEXT');
+ //sendButton.position(mouseX, mouseY);
+ // sendButton.mousePressed(sendTheMessage);
+ //sendButton.size(100,100);
+
+
 }
 
 function draw() 
@@ -98,20 +104,17 @@ function draw()
     rotate(frameCount / -100.0);
     polygon(0, 0, 300, sides); 
     //blob(sides * 10);
-   blob(0, 0, mx);
-
-    function mousePressed(){
-    	 	b.clicked();
-    }
-
+    blob(0, 0, mx);
+ 	
     pop();
-/*
-   for (let i = 0; i < bubbles.length; i++) {
+
+    for (let i = 0; i < bubbles.length; i++) {
     bubbles[i].move();
     bubbles[i].show();
 
   }
-  */
+
+
 
 }
 
@@ -124,9 +127,9 @@ function readIncoming(inMessage) //when new data comes in it triggers this funct
     sides = inMessage.message.slide +4; //take the number from the message and assign it to the sides variable
    	mx = inMessage.message.x;
    	my = inMessage.message.y;
-  // 	bClicked = inMessage.message.bClicked;
-  	blob = inMessage.message.blob;
-
+   	click = inMessage.message.click;
+   	//bubbleClick = inMessage.message.click.clicked();
+	//bubbleClick = clickTest;
 
 }
 
@@ -178,14 +181,9 @@ var radius;
     var r = radius + offset;
     var x = r * cos(a);
     var y = r * sin(a);
-   // vertex(x, y);
-
-    let b = new Bubble(x,y,10);
- //	bubbles.push(b);
- 	b.show();
- 	//b.clicked();
-
-
+    vertex(x, y);
+   // vertex(mx,my);
+   // vertex(mx, my);
     xoff += 0.1;
     xoff += mx;
     //ellipse(x, y, 4, 4);
@@ -224,9 +222,8 @@ function sendTheMessage()
 //slideNumber = ((slideNumber+1)<=(totalImages-1)) ? slideNumber+=1 : 0; //shorthand for conditional assignment
 mx = mouseX;
 my = mouseY;
-b = new Bubble;
-bClicked = b.clicked();
-//sendBlob = this.blob();
+click = new Bubble(mx,my,10);
+click.clicked();
 
 console.log(slideNumber);
 console.log (mx);
@@ -241,9 +238,9 @@ console.log (my);
         slide: slideNumber,
         x: mx,
         y: my,
-       bClicked: bClicked,
-       blob: sendBlob
+        click: click,
    
+
       }
 
     });
@@ -257,7 +254,7 @@ function mouseDragged(){
 	console.log("mouseDragged");
 	console.log(mouseX);
 	console.log(mouseY);
-	//console.log(click);
+	console.log(click);
 
 };
 
@@ -271,7 +268,6 @@ class Bubble {
     this.brightness = 0;
   }
 
-  
   clicked(px, py) {
     let d = dist(px, py, this.x, this.y);
     if (d < this.r) {
@@ -296,25 +292,10 @@ class Bubble {
 
 
 function mousePressed() {
-  
-  newBub = new Bubble(mouseX, mouseY);
-  newBub.show();
-
-
-
   for (let i = 0; i < bubbles.length; i++) {
-    bubbles[i].clicked();
+    bubbles[i].clicked(mx,my);
 		console.log("move");
   }
 
 }
-
-
-//function mouseDragged() {
- // for (let i = 0; i < bubbles.length; i++) {
-  //  bubbles[i].clicked(mx,my);
-		//console.log("move");
- //}
-
-//}
 
